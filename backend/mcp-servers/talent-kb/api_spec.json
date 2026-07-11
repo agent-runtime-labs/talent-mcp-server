@@ -1,7 +1,7 @@
 [
     {
         "name": "talent_kb",
-        "description": "RAG query against the Talent Knowledge Base candidate profiles. Returns a synthesized answer with citations. Use for talent discovery, candidate matching, specialty experience, skills, certifications, availability, and profile-specific questions.",
+        "description": "Query candidate profiles in the Talent Knowledge Base to find skills, experience, certifications, availability, and talent matches with citations.",
         "inputSchema": {
             "type": "object",
             "properties": {
