@@ -27,6 +27,7 @@ jobs:
   build-images:
     name: Build and Push Docker Images
     runs-on: ubuntu-latest
+    environment:  ${{ inputs.DEPLOYMENT_ENV }}
     outputs:
       image_tag: ${{ steps.set-tag.outputs.tag }}
 
