@@ -10,8 +10,8 @@ module "tf_lambda_talent_kb_mcp_tool" {
   skip_docker_build = var.docker_image_tag != "" ? true : false
   docker_image_tag  = var.docker_image_tag
 
-  skip_ecr_creation  = try(local.ecr_urls_decoded["${var.project_name}-talent-kb"], "") != "" ? true : false
-  ecr_repository_url = try(local.ecr_urls_decoded["${var.project_name}-talent-kb"], "")
+  skip_ecr_creation  = try(local.ecr_urls_decoded["mcp-server-talent-kb"], "") != "" ? true : false
+  ecr_repository_url = try(local.ecr_urls_decoded["mcp-server-talent-kb"], "")
 
   additional_iam_policy_arns = [
     aws_iam_policy.bedrock_kb_access.arn,
