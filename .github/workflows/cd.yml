@@ -29,6 +29,7 @@ jobs:
 
   infra-tf-apply:
     uses: ./.github/workflows/setup-infra.yml
+    needs: [build-and-push-images]
     with:
       WORKFLOW_TEXT: Deploy the infrastructure intended for deployment in the dev environment.
       TF_ACTION: apply
