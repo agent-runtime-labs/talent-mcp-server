@@ -15,6 +15,10 @@ on:
         required: false
         type: string
         default: plan
+      IMAGE_TAG:
+        required: false
+        type: string
+        default: ""
 
 permissions:
   id-token: write # This is required for requesting the JWT from AWS.
@@ -45,6 +49,19 @@ jobs:
           aws-region: us-east-1
           role-session-name: github-sessions
 
+      - name: Download ECR URLs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ecr-urls-${{ github.run_id }}
+          path: ./ecr-artifact
+
+      - name: Read ECR URLs from artifact
+        id: read-ecr-urls
+        run: |
+          ECR_URLS_B64=$(cat ./ecr-artifact/ecr_urls.txt)
+          echo "ecr_urls_b64=${ECR_URLS_B64}" >> $GITHUB_OUTPUT
+
+
       - name: Terraform Init & ${{ inputs.TF_ACTION }}
         working-directory: ./infra-as-code
         run: ./tf-wrapper.sh ${{ inputs.DEPLOYMENT_ENV }} init
@@ -52,3 +69,6 @@ jobs:
       - name: Terraform ${{ inputs.TF_ACTION }}
         working-directory: ./infra-as-code
         run: ./tf-wrapper.sh ${{ inputs.DEPLOYMENT_ENV }} ${{ inputs.TF_ACTION }}
+        env:
+          TF_VAR_docker_image_tag: ${{ inputs.IMAGE_TAG }}
+          TF_VAR_ecr_urls: ${{ steps.read-ecr-urls.outputs.ecr_urls_b64 }}

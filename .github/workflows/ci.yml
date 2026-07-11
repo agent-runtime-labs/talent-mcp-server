@@ -18,10 +18,20 @@ concurrency:
   cancel-in-progress: true  # Cancel previous runs when new commits are pushed
 
 jobs:
+  build-and-push-images:
+    uses: ./.github/workflows/build-and-push-images.yml
+    with:
+      DEPLOYMENT_ENV: dev
+      IMAGE_TAG: ${{ github.sha }}
+      PUSH_IMAGES: false
+    secrets: inherit
+
   infra-tf-plan:
     uses: ./.github/workflows/setup-infra.yml
+    needs: [build-and-push-images]
     with:
       WORKFLOW_TEXT: Validate the infrastructure intended for deployment in the dev environment.
       TF_ACTION: plan
       DEPLOYMENT_ENV: dev
+      IMAGE_TAG: ${{ needs.build-and-push-images.outputs.image_tag }}
     secrets: inherit
