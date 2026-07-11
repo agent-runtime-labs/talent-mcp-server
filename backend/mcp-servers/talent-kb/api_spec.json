@@ -1,0 +1,16 @@
+[
+    {
+        "name": "talent_kb",
+        "description": "RAG query against the Talent Knowledge Base candidate profiles. Returns a synthesized answer with citations. Use for talent discovery, candidate matching, specialty experience, skills, certifications, availability, and profile-specific questions.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The candidate search or profile question to answer. Examples: 'Find ICU nurses with ventilator experience', 'Which candidates have emergency room experience?', 'Summarize Sarah Johnson's nursing background'."
+                }
+            },
+            "required": ["query"]
+        }
+    }
+]
