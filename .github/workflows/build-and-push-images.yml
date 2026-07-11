@@ -116,3 +116,4 @@ jobs:
       images: '["mcp-server-talent-kb"]'
       image_tag: ${{ inputs.IMAGE_TAG }}
       wait_seconds: 0
+    secrets: inherit
