@@ -31,7 +31,7 @@ def get_kb_id(ssm_path_env: str = "SSM_KB_ID_PATH") -> str:
     if ssm_path in _kb_id_cache:
         return _kb_id_cache[ssm_path]
 
-    region = os.getenv("AWS_REGION", "ap-northeast-1")
+    region = os.getenv("AWS_REGION", "us-east-1")
     ssm = boto3.client("ssm", region_name=region)
     try:
         resp = ssm.get_parameter(Name=ssm_path, WithDecryption=True)
@@ -50,7 +50,7 @@ def retrieve(query: str, retrieval_configuration: dict, region: str | None = Non
     standard Bedrock `retrievalConfiguration` fields — callers own the full config.
     """
     if region is None:
-        region = os.getenv("AWS_REGION", "ap-northeast-1")
+        region = os.getenv("AWS_REGION", "us-east-1")
 
     kb_id = retrieval_configuration["knowledgeBaseId"]
     retrieval_config = {k: v for k, v in retrieval_configuration.items() if k != "knowledgeBaseId"}
@@ -83,7 +83,7 @@ def retrieve_and_generate(query: str, kb_configuration: dict, region: str | None
     callers own the full config including `knowledgeBaseId` and `modelArn`.
     """
     if region is None:
-        region = os.getenv("AWS_REGION", "ap-northeast-1")
+        region = os.getenv("AWS_REGION", "us-east-1")
 
     client = boto3.client("bedrock-agent-runtime", region_name=region)
     try:
